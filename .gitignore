@@ -1,0 +1,27 @@
+# Secrets & environment (NEVER commit — contains OPENAI_API_KEY / ADMIN_KEY)
+.env
+.env.*
+!.env.example
+
+# Database (local data / leads)
+*.db
+chatbot.db
+
+# Logs
+*.log
+uvicorn.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
