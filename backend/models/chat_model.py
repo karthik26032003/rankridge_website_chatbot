@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String
-from app.db.database import Base
+from backend.helpers.database import Base
 
 
 class Chat(Base):

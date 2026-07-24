@@ -1,11 +1,11 @@
-from app.core.config import get_system_prompt
-from app.services.memory_service import (
+from backend.helpers.config import get_system_prompt
+from backend.helpers.services.memory_service import (
     get_chat_messages,
     add_user_message,
     add_assistant_message,
 )
-from app.services.lead_service import extract_and_save_lead
-from app.services.openAI_services import stream_ai_response
+from backend.helpers.services.lead_service import extract_and_save_lead
+from backend.helpers.services.openai_service import stream_ai_response
 
 
 def build_messages_for_chat(chat_id: str):

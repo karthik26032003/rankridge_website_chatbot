@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from app.core.rate_limit import enforce_rate_limit
-from app.services.chat_service import (
+from backend.helpers.rate_limit import enforce_rate_limit
+from backend.helpers.services.chat_service import (
     start_chat_message,
     stream_chat_response,
 )
-from app.services.memory_service import get_chat_messages
+from backend.helpers.services.memory_service import get_chat_messages
 
 router = APIRouter()
 

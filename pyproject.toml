@@ -1,0 +1,19 @@
+[project]
+name = "rankridge-website-chatbot"
+version = "0.1.0"
+description = "Rankridge Assistant — FastAPI chatbot backend for the Rankridge website"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "openai",
+    "python-dotenv",
+    "pydantic",
+    "pydantic-settings",
+    "sqlalchemy",
+    "truststore",
+]
+
+[tool.uv]
+package = false

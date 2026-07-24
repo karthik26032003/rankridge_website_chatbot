@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey, func
-from app.db.database import Base
+from backend.helpers.database import Base
 
 
 class Lead(Base):

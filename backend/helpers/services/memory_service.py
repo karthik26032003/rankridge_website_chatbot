@@ -1,8 +1,8 @@
-from app.db.database import SessionLocal
-from app.models.chat_model import Chat
-from app.models.message_model import MessageDB
-from app.schema.message import Message
-from app.services.openAI_services import generate_chat_title_from_message
+from backend.helpers.database import SessionLocal
+from backend.models.chat_model import Chat
+from backend.models.message_model import MessageDB
+from backend.models.message import Message
+from backend.helpers.services.openai_service import generate_chat_title_from_message
 
 
 def generate_chat_title(message: str) -> str:

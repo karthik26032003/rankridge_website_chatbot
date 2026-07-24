@@ -1,11 +1,9 @@
 import json
 
-from openai import OpenAI
-from app.core.config import settings
-from app.db.database import SessionLocal
-from app.models.lead_model import Lead
-
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+from backend.helpers.config import settings
+from backend.helpers.database import SessionLocal
+from backend.helpers.services.openai_service import client
+from backend.models.lead_model import Lead
 
 EXTRACTION_PROMPT = """
 You extract the user's email address from a chat conversation for an IIT-JEE coaching institute chatbot.

@@ -1,6 +1,8 @@
 from openai import OpenAI
-from app.core.config import settings
+from backend.helpers.config import settings
 
+# Single shared OpenAI client for the whole app. Other modules import this
+# instance instead of constructing their own.
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 

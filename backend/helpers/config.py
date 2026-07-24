@@ -2,8 +2,8 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Project root (…/chatbot_backend). config.py lives at app/core/config.py,
-# so the root is two directories up.
+# Project root (…/rankridge_website_chatbot).
+# config.py lives at backend/helpers/config.py, so the root is three levels up.
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 
@@ -19,11 +19,25 @@ class Settings(BaseSettings):
     MAX_TOKENS: int = 500
     ADMIN_KEY: str
 
+    # Database. Defaults to a local SQLite file for development; set to a
+    # Postgres URL (e.g. Railway's DATABASE_URL) in production so leads and
+    # chat history survive redeploys.
+    DATABASE_URL: str = "sqlite:///./chatbot.db"
+
+    # Comma-separated list of origins allowed to call the API. "*" allows any
+    # origin (needed while the website calls the backend cross-origin). Narrow
+    # this to the site's domain(s) once the production backend URL is fixed.
+    ALLOWED_ORIGINS: str = "*"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
     )
+
+    @property
+    def allowed_origins_list(self) -> list[str]:
+        return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
 
 
 settings = Settings()
