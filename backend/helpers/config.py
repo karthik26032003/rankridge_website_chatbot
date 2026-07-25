@@ -36,16 +36,22 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Strip stray whitespace/newlines that sneak in when pasting values into a
-    # dashboard (e.g. Railway variables). A trailing newline in MODEL_NAME or
-    # the API key silently breaks the OpenAI call.
+    # Clean stray whitespace/newlines AND surrounding quotes that sneak in when
+    # pasting values into a dashboard (e.g. Railway variables). A trailing
+    # newline or literal quotes in MODEL_NAME/the API key silently break the
+    # OpenAI call (e.g. a value of  "gpt-4o-mini"  including the quote chars).
     @field_validator(
         "OPENAI_API_KEY", "MODEL_NAME", "ADMIN_KEY", "DATABASE_URL", "ALLOWED_ORIGINS",
         mode="before",
     )
     @classmethod
-    def _strip_whitespace(cls, value):
-        return value.strip() if isinstance(value, str) else value
+    def _clean_value(cls, value):
+        if not isinstance(value, str):
+            return value
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            value = value[1:-1].strip()
+        return value
 
     @property
     def allowed_origins_list(self) -> list[str]:
