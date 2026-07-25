@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Project root (…/rankridge_website_chatbot).
@@ -34,6 +35,17 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+    # Strip stray whitespace/newlines that sneak in when pasting values into a
+    # dashboard (e.g. Railway variables). A trailing newline in MODEL_NAME or
+    # the API key silently breaks the OpenAI call.
+    @field_validator(
+        "OPENAI_API_KEY", "MODEL_NAME", "ADMIN_KEY", "DATABASE_URL", "ALLOWED_ORIGINS",
+        mode="before",
+    )
+    @classmethod
+    def _strip_whitespace(cls, value):
+        return value.strip() if isinstance(value, str) else value
 
     @property
     def allowed_origins_list(self) -> list[str]:
