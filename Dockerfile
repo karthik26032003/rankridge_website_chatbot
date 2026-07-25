@@ -3,6 +3,13 @@
 # auto-detects this Dockerfile and builds from it.
 FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim
 
+# The slim image ships no CA certificates. main.py uses truststore, which reads
+# the OS trust store for outbound HTTPS (e.g. the OpenAI API) — without this,
+# every API call fails SSL verification.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Install dependencies first (cached layer) from the committed lockfile.

@@ -1,3 +1,5 @@
+import logging
+
 from backend.helpers.config import get_system_prompt
 from backend.helpers.services.memory_service import (
     get_chat_messages,
@@ -39,6 +41,9 @@ def stream_chat_response(chat_id: str):
             full_response += chunk
             yield chunk
     except Exception:
+        # Log the real cause (auth, model, SSL, quota…) so it shows in the
+        # server logs; keep the user-facing message generic.
+        logging.exception("AI streaming failed for chat_id=%s", chat_id)
         yield "\n\n[Error: failed to get a response from the AI service.]"
         return
 
