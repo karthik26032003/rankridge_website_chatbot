@@ -85,11 +85,13 @@ immediately — no restart needed.
 
 1. Push to GitHub and create a Railway project from this repo.
 2. Set the environment variables above in Railway → **Variables**.
-3. The bundled [`Procfile`](Procfile) provides the start command:
+3. The bundled [`nixpacks.toml`](nixpacks.toml) pins the build: it installs from
+   `uv.lock` and starts with
    `uv run uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
 4. **Persistence:** the default SQLite file lives on Railway's ephemeral disk and
-   is wiped on every redeploy. Add a Railway **Postgres** plugin and set
-   `DATABASE_URL` to it so captured leads survive.
+   is wiped on every redeploy. Add a Railway **Postgres** database and set
+   `DATABASE_URL` to `${{Postgres.DATABASE_URL}}` so captured leads survive. The
+   Postgres driver (`psycopg`) is already included.
 
 ## Connecting the website
 

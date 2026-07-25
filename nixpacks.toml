@@ -1,0 +1,13 @@
+# Deterministic Railway (Nixpacks) build for this uv-managed FastAPI app.
+# Pins Python + uv, installs exactly from uv.lock, and defines the start command
+# so the build never depends on Nixpacks auto-detecting uv.
+
+[phases.setup]
+nixPkgs = ["python311", "uv"]
+
+[phases.install]
+# --frozen: install exactly what's in uv.lock (fails if lock is stale).
+cmds = ["uv sync --frozen --no-dev"]
+
+[start]
+cmd = "uv run uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
